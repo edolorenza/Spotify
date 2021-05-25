@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettings))
         
-        APICaller.shared.getFeaturedPlaylist{ result in
+        APICaller.shared.getRecommendationGenres{ result in
             switch result {
             case .success(let model):
                 break

@@ -21,3 +21,4 @@
 [GET: Current User Profile](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-current-users-profile)<br>
 [GET: List of ALL New Releases](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-new-releases)<br>
 [GET: All Featured Releases](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-featured-playlists)<br>
+[GET: Recommendation Genres](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-recommendation-genres)<br>

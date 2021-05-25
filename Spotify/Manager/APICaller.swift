@@ -61,7 +61,7 @@ final class APICaller {
         }
     }
     
-    //MARK: - Featured Playlist
+    //MARK: - Get Featured Playlist
     public func getFeaturedPlaylist(completion: @escaping ((Result<FeaturedPlaylistResponse, Error>)) -> Void){
         createRequest(with: URL(string: Constants.baseAPIURL+"/browse/featured-playlists?limit=50"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -80,6 +80,27 @@ final class APICaller {
             task.resume()
         }
     }
+    
+    //MARK: - Get Recommendations
+    public func getRecommendationGenres(completion: @escaping ((Result<RecommendationGenresResponse, Error>)) -> Void){
+        createRequest(with: URL(string: Constants.baseAPIURL+"/recommendations/available-genre-seeds"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do{
+                    let result = try JSONDecoder().decode(RecommendationGenresResponse.self, from: data)
+                    completion(.success(result))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
     
     //MARK: - Private
     
