@@ -19,3 +19,4 @@
 [Get Client ID & Client Secret](https://developer.spotify.com/dashboard/login) <br>
 [Authorization Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/) <br>
 [GET: Current User Profile](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-current-users-profile)<br>
+[GET: List of ALL New Releases](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-new-releases)<br>
