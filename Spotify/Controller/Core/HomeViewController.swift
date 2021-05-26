@@ -16,6 +16,10 @@ enum BrowseSectionType{
 class HomeViewController: UIViewController {
     
     //MARK: - Properties
+    private var newAlbums: [Album] = []
+    private var playlist: [Playlist] = []
+    private var track: [AudioTrack] = []
+    
     private let spinner: UIActivityIndicatorView = {
         let spinner  = UIActivityIndicatorView()
         spinner.tintColor = .label
@@ -151,9 +155,14 @@ class HomeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
     }
+
     
     private func configureModels(newAlbums: [Album], track: [AudioTrack], playlist: [Playlist]){
         //configure models
+        self.newAlbums = newAlbums
+        self.track = track
+        self.playlist = playlist
+        
         sections.append(.newReleases(viewModels: newAlbums.compactMap({
             return NewReleaseCellViewModel(
                 name: $0.name,
@@ -173,7 +182,7 @@ class HomeViewController: UIViewController {
             return RecommendedTrackCellViewModel(
                 name: $0.name,
                 artistName: $0.artists.first?.name ?? "-",
-                artWorkURL: URL(string: $0.album.images.first?.url ?? ""))
+                artWorkURL: URL(string: $0.album?.images.first?.url ?? ""))
         })))
         collectionView.reloadData()
     }
@@ -181,7 +190,27 @@ class HomeViewController: UIViewController {
   
 
 extension HomeViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let section = sections[indexPath.section]
+        
+        switch section {
+        case .FeaturedPlaylist:
+            let playlist = playlist[indexPath.row]
+            let controller = PlaylistViewController(playlist: playlist)
+            controller.title = playlist.name
+            controller.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(controller, animated: true)
+        case .newReleases:
+            let album = newAlbums[indexPath.row]
+            let controller = AlbumViewController(album: album)
+            controller.title = album.name
+            controller.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(controller, animated: true)
+        case .RecomendationsTracks:
+            break
+        }
+    }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
