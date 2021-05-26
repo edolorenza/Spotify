@@ -131,10 +131,29 @@ final class APICaller {
                     return
                 }
                 do{
-//                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-//                    print(json)
                     let result = try JSONDecoder().decode(AlbumDetailsResponse.self, from: data)
-                    print(result)
+                    completion(.success(result))
+                }
+                catch{
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK: - Get Playlist Detail
+    public func getPlaylistDetails(for playlist: Playlist, completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void){
+        createRequest(with: URL(string: Constants.baseAPIURL+"/playlists/" + playlist.id), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request){ data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do{
+                    let result = try JSONDecoder().decode(PlaylistDetailsResponse.self, from: data)
+                    completion(.success(result))
                 }
                 catch{
                     print(error)

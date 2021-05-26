@@ -24,3 +24,4 @@
 [GET: Recommendation Genres](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-recommendation-genres)<br>
 [GET: Recommendation](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-recommendations)<br>
 [GET: Album Details](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-an-album)<br>
+[GET: Get Playlist Details](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlist)<br>
