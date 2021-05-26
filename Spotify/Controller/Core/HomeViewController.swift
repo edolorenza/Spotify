@@ -9,8 +9,8 @@ import UIKit
 
 enum BrowseSectionType{
     case newReleases(viewModels: [NewReleaseCellViewModel]) // 0
-    case FeaturedPlaylist(viewModels: [NewReleaseCellViewModel]) //1
-    case RecomendationsTracks(viewModels: [NewReleaseCellViewModel]) //2
+    case FeaturedPlaylist(viewModels: [FeaturedPlaylistCellViewModel]) //1
+    case RecomendationsTracks(viewModels: [RecommendedTrackCellViewModel]) //2
 }
 
 class HomeViewController: UIViewController {
@@ -155,10 +155,26 @@ class HomeViewController: UIViewController {
     private func configureModels(newAlbums: [Album], track: [AudioTrack], playlist: [Playlist]){
         //configure models
         sections.append(.newReleases(viewModels: newAlbums.compactMap({
-            return NewReleaseCellViewModel(name: $0.name, artWorkURL: URL(string: $0.images.first?.url ?? ""), numberOfTracks: $0.total_tracks, artistName: $0.artists.first?.name ?? "_")
+            return NewReleaseCellViewModel(
+                name: $0.name,
+                artWorkURL: URL(string: $0.images.first?.url ?? ""),
+                numberOfTracks: $0.total_tracks,
+                artistName: $0.artists.first?.name ?? "_")
         })))
-        sections.append(.FeaturedPlaylist(viewModels: []))
-        sections.append(.RecomendationsTracks(viewModels: []))
+        
+        sections.append(.FeaturedPlaylist(viewModels: playlist.compactMap({
+            return FeaturedPlaylistCellViewModel(
+                name: $0.name,
+                artworkURL: URL(string: $0.images.first?.url ?? ""),
+                creatorName: $0.owner.display_name)
+        })))
+                            
+        sections.append(.RecomendationsTracks(viewModels: track.compactMap({
+            return RecommendedTrackCellViewModel(
+                name: $0.name,
+                artistName: $0.artists.first?.name ?? "-",
+                artWorkURL: URL(string: $0.album.images.first?.url ?? ""))
+        })))
         collectionView.reloadData()
     }
 }
@@ -197,7 +213,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.row]
-            cell.backgroundColor = .red
+            cell.configure(with: viewModel)
             return cell
         case .RecomendationsTracks(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedTrackCollectionViewCell.identifier, for: indexPath) as? RecommendedTrackCollectionViewCell else {
@@ -246,7 +262,7 @@ extension HomeViewController {
             // item
             let item = NSCollectionLayoutItem(
                                 layoutSize: NSCollectionLayoutSize(
-                                widthDimension: .absolute(200),
+                                widthDimension: .absolute(170),
                                 heightDimension: .fractionalHeight(1.0)))
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
@@ -254,14 +270,14 @@ extension HomeViewController {
             //vertical group in horizontal grup
             let verticalGroup = NSCollectionLayoutGroup.vertical(
                                 layoutSize: NSCollectionLayoutSize(
-                                widthDimension: .absolute(200),
-                                heightDimension: .absolute(400)),
+                                widthDimension: .absolute(180),
+                                heightDimension: .absolute(450)),
                                 subitem: item, count: 2)
             //group
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                                   layoutSize: NSCollectionLayoutSize(
-                                  widthDimension: .absolute(200),
-                                  heightDimension: .absolute(400)),
+                                  widthDimension: .absolute(180),
+                                  heightDimension: .absolute(450)),
                                   subitem: verticalGroup, count: 1)
             //section
             let section = NSCollectionLayoutSection(group: horizontalGroup)
