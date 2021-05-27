@@ -27,7 +27,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         label.numberOfLines = 0
         return label
@@ -52,7 +52,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.backgroundColor = .systemGreen
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .systemBackground
         button.layer.cornerRadius = 21
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(didTapPlayAll), for: .touchUpInside)
@@ -80,24 +80,25 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     
     //MARK: - Helpers
     private func setupView() {
+        let imageSize = frame.width/1.5
         addSubview(playlistImageView)
-        playlistImageView.anchor(top:topAnchor, left: leftAnchor, paddingTop: 8)
-        playlistImageView.setDimensions(height: 207, width: 207)
+        playlistImageView.centerX(inView: self)
+        playlistImageView.anchor(top:topAnchor, paddingTop: 8)
+        playlistImageView.setDimensions(height: imageSize, width: imageSize)
 
         let stack = UIStackView(arrangedSubviews: [nameLabel, ownerLabel])
         addSubview(stack)
         stack.distribution = .fillEqually
         stack.axis = .vertical
-        stack.spacing = 4
-        stack.centerY(inView: playlistImageView)
-        stack.anchor(left: playlistImageView.rightAnchor, right: rightAnchor, paddingLeft: 4, paddingRight: 4)
-        
+        stack.spacing = 2
+        stack.anchor(top: playlistImageView.bottomAnchor, left: leftAnchor, paddingTop: 4, paddingLeft: 4)
+
         addSubview(descriptionLabel)
-        descriptionLabel.anchor(top: playlistImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 4, paddingRight: 4)
+        descriptionLabel.anchor(top: stack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 4, paddingRight: 20)
         
         addSubview(playAllButton)
         playAllButton.setDimensions(height: 42, width: 42)
-        playAllButton.anchor(bottom: bottomAnchor, right: rightAnchor, paddingBottom: 4, paddingRight: 4)
+        playAllButton.anchor(bottom: bottomAnchor, right: rightAnchor, paddingBottom: 4, paddingRight: 8)
     }
     
     func configure(with viewModel: PlaylistHeaderViewModel){

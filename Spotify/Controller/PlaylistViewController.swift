@@ -33,13 +33,14 @@ class PlaylistViewController: UIViewController {
                             widthDimension: .fractionalWidth(1.0),
                             heightDimension: .absolute(80)),
                             subitem: verticalGroup, count: 1)
-        //section
+        
+        //section header playlist
         let section = NSCollectionLayoutSection(group: grup)
         section.boundarySupplementaryItems = [
          NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalWidth(0.8)),
+                heightDimension: .fractionalWidth(1.0)),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         ]

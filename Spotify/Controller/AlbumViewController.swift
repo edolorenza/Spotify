@@ -33,7 +33,7 @@ class AlbumViewController: UIViewController {
          NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalWidth(0.8)),
+                heightDimension: .fractionalWidth(1.0)),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         ]
