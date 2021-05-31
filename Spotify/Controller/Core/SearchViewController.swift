@@ -40,20 +40,38 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         return section
     }))
     
+    
+    private var categories = [Category]()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        fetchData()
     }
     
+    
     //MARK: - API
+    private func fetchData(){
+        APICaller.shared.getAllCategories {[weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let categories):
+                    self?.categories = categories
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
     
     //MARK: - Helpers
     private func setupView(){
         view.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
-        collectionView.register(GenreCollectionViewCell.self, forCellWithReuseIdentifier: GenreCollectionViewCell.identifier)
+        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         view.addSubview(collectionView)
         collectionView.backgroundColor = .systemBackground
         collectionView.dataSource = self
@@ -86,14 +104,17 @@ extension SearchViewController: UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreCollectionViewCell.identifier, for: indexPath) as? GenreCollectionViewCell else  {
-            return GenreCollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell else  {
+            return CategoryCollectionViewCell()
         }
-        cell.configure(with: "Dangdut")
+        let category = categories[indexPath.row]
+        cell.configure(with: CategoryCollectionViewCellViewModel(
+                        title: category.name,
+                        artWorkURL: URL(string:category.icons.first?.url ?? "")))
         return cell
     }
 }

@@ -1,5 +1,5 @@
 //
-//  GenreCollectionViewCell.swift
+//  CategoryCollectionViewCell.swift
 //  Spotify
 //
 //  Created by Edo Lorenza on 31/05/21.
@@ -8,13 +8,14 @@
 import UIKit
 import SDWebImage
 
-class GenreCollectionViewCell: UICollectionViewCell {
+class CategoryCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
-    static let identifier = "GenreCollectionViewCell"
+    static let identifier = "CategoryCollectionViewCell"
     
     private let genreLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .heavy)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -23,8 +24,6 @@ class GenreCollectionViewCell: UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 8
         iv.clipsToBounds = true
-        iv.tintColor = .white
-        iv.image = UIImage(systemName: "music.quarternote.3")
         return iv
     }()
     
@@ -47,6 +46,13 @@ class GenreCollectionViewCell: UICollectionViewCell {
         setupView()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        genreLabel.text = nil
+        playlistImageView.tintColor = .white
+        playlistImageView.image = UIImage(systemName: "music.quarternote.3")
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -61,15 +67,16 @@ class GenreCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 6
         
         addSubview(genreLabel)
-        genreLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 8)
+        genreLabel.anchor(top: topAnchor, left: leftAnchor,right: rightAnchor, paddingTop: 8, paddingLeft: 8)
         
         addSubview(playlistImageView)
         playlistImageView.setDimensions(height: 65, width: 65)
         playlistImageView.anchor(bottom: bottomAnchor, right: rightAnchor, paddingBottom: 6, paddingRight: 6)
     }
     
-    func configure(with title: String) {
-        genreLabel.text = title
+    func configure(with viewModel: CategoryCollectionViewCellViewModel) {
+        genreLabel.text = viewModel.title
+        playlistImageView.sd_setImage(with: viewModel.artWorkURL)
         backgroundColor = color.randomElement()
     }
 }

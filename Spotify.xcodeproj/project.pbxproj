@@ -25,7 +25,9 @@
 		6BA58C0B265F2DBF00E45DD9 /* TitleHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA58C0A265F2DBF00E45DD9 /* TitleHeaderCollectionReusableView.swift */; };
 		6BA58C0D265F4D4400E45DD9 /* AlbumTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA58C0C265F4D4400E45DD9 /* AlbumTrackCollectionViewCell.swift */; };
 		6BC076B1265D277800973F4E /* NewReleaseCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC076B0265D277800973F4E /* NewReleaseCellViewModel.swift */; };
-		6BE00C5A2664DEAE007F74B2 /* GenreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C592664DEAE007F74B2 /* GenreCollectionViewCell.swift */; };
+		6BE00C5A2664DEAE007F74B2 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C592664DEAE007F74B2 /* CategoryCollectionViewCell.swift */; };
+		6BE00C5C2664EE0D007F74B2 /* AllCategoriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C5B2664EE0D007F74B2 /* AllCategoriesResponse.swift */; };
+		6BE00C5E26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C5D26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift */; };
 		6BEA81E1265B4E5800479602 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA81E0265B4E5800479602 /* AuthResponse.swift */; };
 		6BEA81E3265B6A2300479602 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA81E2265B6A2300479602 /* SettingsModel.swift */; };
 		6BFDE98E2659220A00A886B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFDE98D2659220A00A886B4 /* AppDelegate.swift */; };
@@ -73,7 +75,9 @@
 		6BA58C0A265F2DBF00E45DD9 /* TitleHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		6BA58C0C265F4D4400E45DD9 /* AlbumTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		6BC076B0265D277800973F4E /* NewReleaseCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleaseCellViewModel.swift; sourceTree = "<group>"; };
-		6BE00C592664DEAE007F74B2 /* GenreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreCollectionViewCell.swift; sourceTree = "<group>"; };
+		6BE00C592664DEAE007F74B2 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		6BE00C5B2664EE0D007F74B2 /* AllCategoriesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesResponse.swift; sourceTree = "<group>"; };
+		6BE00C5D26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCollectionViewCellViewModel .swift"; sourceTree = "<group>"; };
 		6BEA81E0265B4E5800479602 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		6BEA81E2265B6A2300479602 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		6BFDE98A2659220A00A886B4 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +197,7 @@
 				6B915E9A265CEEE600BAFB3C /* RecommendationsResponse.swift */,
 				6BA0BCAB265E1EB20059ADD7 /* AlbumDetailsResponse.swift */,
 				6BA0BCAD265E24CD0059ADD7 /* PlaylistDetailsResponse.swift */,
+				6BE00C5B2664EE0D007F74B2 /* AllCategoriesResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 				6BA0BCA5265DE9820059ADD7 /* FeaturedPlaylistCellViewModel.swift */,
 				6BA0BCA7265DE9B90059ADD7 /* RecommendedTrackCellViewModel.swift */,
 				6BA0BCB1265E4D840059ADD7 /* PlaylistHeaderViewModel.swift */,
+				6BE00C5D26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -236,7 +242,7 @@
 				6BFDE9982659220B00A886B4 /* LaunchScreen.storyboard */,
 				6BA0BCAF265E4A240059ADD7 /* PlaylistHeaderCollectionReusableView.swift */,
 				6BA58C0A265F2DBF00E45DD9 /* TitleHeaderCollectionReusableView.swift */,
-				6BE00C592664DEAE007F74B2 /* GenreCollectionViewCell.swift */,
+				6BE00C592664DEAE007F74B2 /* CategoryCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -390,6 +396,7 @@
 				6BA0BCA8265DE9B90059ADD7 /* RecommendedTrackCellViewModel.swift in Sources */,
 				6BFDE9C0265926CD00A886B4 /* AuthManager.swift in Sources */,
 				6BA58C0B265F2DBF00E45DD9 /* TitleHeaderCollectionReusableView.swift in Sources */,
+				6BE00C5E26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift in Sources */,
 				6BA0BCAA265E1A190059ADD7 /* AlbumViewController.swift in Sources */,
 				6BA0BCA6265DE9820059ADD7 /* FeaturedPlaylistCellViewModel.swift in Sources */,
 				6BFDE9B42659267500A886B4 /* WelcomeViewController.swift in Sources */,
@@ -397,6 +404,7 @@
 				6BFDE9A92659260000A886B4 /* TabBarViewController.swift in Sources */,
 				6BFDE9922659220A00A886B4 /* HomeViewController.swift in Sources */,
 				6B915EA0265D0CCF00BAFB3C /* FeaturedPlaylistViewCell.swift in Sources */,
+				6BE00C5C2664EE0D007F74B2 /* AllCategoriesResponse.swift in Sources */,
 				6B915E99265CEA9100BAFB3C /* RecommendationGenresResponse.swift in Sources */,
 				6BFDE9C4265926E400A886B4 /* HapticsManager.swift in Sources */,
 				6B915E9B265CEEE600BAFB3C /* RecommendationsResponse.swift in Sources */,
@@ -410,7 +418,7 @@
 				6BFDE9B22659266A00A886B4 /* AuthViewController.swift in Sources */,
 				6BEA81E3265B6A2300479602 /* SettingsModel.swift in Sources */,
 				6BFDE98E2659220A00A886B4 /* AppDelegate.swift in Sources */,
-				6BE00C5A2664DEAE007F74B2 /* GenreCollectionViewCell.swift in Sources */,
+				6BE00C5A2664DEAE007F74B2 /* CategoryCollectionViewCell.swift in Sources */,
 				6BA0BCB0265E4A240059ADD7 /* PlaylistHeaderCollectionReusableView.swift in Sources */,
 				6BFDE9AD2659263D00A886B4 /* LibraryViewController.swift in Sources */,
 				6BFDE9CC2659271E00A886B4 /* UserProfile.swift in Sources */,
