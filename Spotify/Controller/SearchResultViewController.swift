@@ -117,7 +117,7 @@ extension SearchResultViewController: UITableViewDelegate{
             controller.navigationItem.largeTitleDisplayMode = .never
             delegate?.showResult(controller: controller)
         case .track(let model):
-            break
+            PlaybackPresenter.startPlayback(from: self, track: model)
         }
     }
 }

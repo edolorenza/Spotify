@@ -221,6 +221,8 @@ extension HomeViewController: UICollectionViewDelegate {
             controller.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(controller, animated: true)
         case .RecomendationsTracks:
+            let track = track[indexPath.row]
+            PlaybackPresenter.startPlayback(from: self, track: track)
             break
         }
     }
