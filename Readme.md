@@ -27,3 +27,4 @@
 [GET: Playlist Details](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlist)<br>
 [GET: All Categories](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-categories)<br>
 [GET: Category Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-categories-playlists)<br>
+[GET: Search for an item](https://developer.spotify.com/documentation/web-api/reference/#endpoint-search)<br>

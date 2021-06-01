@@ -13,7 +13,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
     let searchController: UISearchController = {
         let result = SearchResultViewController()
         let vc = UISearchController(searchResultsController: result)
-        vc.searchBar.placeholder = "Songs, Artist, Albums"
+        vc.searchBar.placeholder = "Songs, Artists, Albums, Tracks"
         vc.searchBar.searchBarStyle = .minimal
         vc.definesPresentationContext = true
         return vc
@@ -66,10 +66,12 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         }
     }
     
+    
     //MARK: - Helpers
     private func setupView(){
         view.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         view.addSubview(collectionView)
@@ -81,14 +83,44 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
     
 }
 
+//MARK: - UISearchBarDelegate
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let resultController = searchController.searchResultsController as? SearchResultViewController,
+            let query = searchBar.text,
+            !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+        resultController.delegate = self
+        
+        APICaller.shared.search(query: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let results):
+                    resultController.update(with: results)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+    }
+}
+
+//MARK: - SearchResultViewControllerDelegate
+extension SearchViewController: SearchResultViewControllerDelegate{
+    func showResult(controller: UIViewController) {
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
 //MARK: - Search Bar update Result
 extension SearchViewController {
     func updateSearchResults(for searchController: UISearchController) {
         guard let resultController = searchController.searchResultsController as? SearchResultViewController ,let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
-        //ferform search
-        print(query)
     }
 }
 

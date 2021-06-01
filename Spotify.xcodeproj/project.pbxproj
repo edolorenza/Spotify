@@ -29,6 +29,8 @@
 		6BE00C5C2664EE0D007F74B2 /* AllCategoriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C5B2664EE0D007F74B2 /* AllCategoriesResponse.swift */; };
 		6BE00C5E26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C5D26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift */; };
 		6BE00C62266524A4007F74B2 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C61266524A4007F74B2 /* CategoryViewController.swift */; };
+		6BE00C642665DD80007F74B2 /* SearchResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C632665DD80007F74B2 /* SearchResultResponse.swift */; };
+		6BE00C662665E03D007F74B2 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE00C652665E03D007F74B2 /* SearchResult.swift */; };
 		6BEA81E1265B4E5800479602 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA81E0265B4E5800479602 /* AuthResponse.swift */; };
 		6BEA81E3265B6A2300479602 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA81E2265B6A2300479602 /* SettingsModel.swift */; };
 		6BFDE98E2659220A00A886B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFDE98D2659220A00A886B4 /* AppDelegate.swift */; };
@@ -80,6 +82,8 @@
 		6BE00C5B2664EE0D007F74B2 /* AllCategoriesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesResponse.swift; sourceTree = "<group>"; };
 		6BE00C5D26650FBC007F74B2 /* CategoryCollectionViewCellViewModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCollectionViewCellViewModel .swift"; sourceTree = "<group>"; };
 		6BE00C61266524A4007F74B2 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		6BE00C632665DD80007F74B2 /* SearchResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultResponse.swift; sourceTree = "<group>"; };
+		6BE00C652665E03D007F74B2 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		6BEA81E0265B4E5800479602 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		6BEA81E2265B6A2300479602 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		6BFDE98A2659220A00A886B4 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +205,8 @@
 				6BA0BCAB265E1EB20059ADD7 /* AlbumDetailsResponse.swift */,
 				6BA0BCAD265E24CD0059ADD7 /* PlaylistDetailsResponse.swift */,
 				6BE00C5B2664EE0D007F74B2 /* AllCategoriesResponse.swift */,
+				6BE00C632665DD80007F74B2 /* SearchResultResponse.swift */,
+				6BE00C652665E03D007F74B2 /* SearchResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -403,6 +409,7 @@
 				6BA0BCAA265E1A190059ADD7 /* AlbumViewController.swift in Sources */,
 				6BA0BCA6265DE9820059ADD7 /* FeaturedPlaylistCellViewModel.swift in Sources */,
 				6BFDE9B42659267500A886B4 /* WelcomeViewController.swift in Sources */,
+				6BE00C662665E03D007F74B2 /* SearchResult.swift in Sources */,
 				6BFDE9B82659268D00A886B4 /* ProfileViewController.swift in Sources */,
 				6BFDE9A92659260000A886B4 /* TabBarViewController.swift in Sources */,
 				6BFDE9922659220A00A886B4 /* HomeViewController.swift in Sources */,
@@ -434,6 +441,7 @@
 				6BA0BCAC265E1EB20059ADD7 /* AlbumDetailsResponse.swift in Sources */,
 				6B915EA2265D0D1700BAFB3C /* RecommendedTrackCollectionViewCell.swift in Sources */,
 				6BFDE9BE265926AC00A886B4 /* SearchResultViewController.swift in Sources */,
+				6BE00C642665DD80007F74B2 /* SearchResultResponse.swift in Sources */,
 				6BFDE9C2265926D700A886B4 /* APICaller.swift in Sources */,
 				6BFDE9B62659268000A886B4 /* SettingsViewController.swift in Sources */,
 			);
