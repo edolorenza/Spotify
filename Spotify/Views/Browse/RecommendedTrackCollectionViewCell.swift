@@ -61,12 +61,12 @@ class RecommendedTrackCollectionViewCell: UICollectionViewCell {
         trackNameLabel.sizeToFit()
         
         let imageWidth: CGFloat = contentView.frame.height
-        addSubview(albumCoverImageView)
+        contentView.addSubview(albumCoverImageView)
         albumCoverImageView.anchor(top: topAnchor, left: leftAnchor)
         albumCoverImageView.setDimensions(height: imageWidth, width: imageWidth)
         
         let stack = UIStackView(arrangedSubviews: [trackNameLabel, artistNameLabel])
-        addSubview(stack)
+        contentView.addSubview(stack)
         stack.distribution = .fillEqually
         stack.axis = .vertical
         stack.spacing = 4
