@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 struct SearchSection {
     let title: String
@@ -24,6 +25,8 @@ class SearchResultViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
+        tableview.register(SearchResultDefaultTableViewCell.self, forCellReuseIdentifier: SearchResultDefaultTableViewCell.identifier)
+        tableview.register(SearchResultSubtitleTableViewCell.self, forCellReuseIdentifier: SearchResultSubtitleTableViewCell.identifier)
         tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableview.isHidden = true
         return tableview
@@ -45,6 +48,15 @@ class SearchResultViewController: UIViewController {
     }
     
     func update(with results: [SearchResult]){
+        
+        let track = results.filter {
+            switch $0 {
+            case .track:
+                return true
+            default: return false
+            }
+        }
+        
         let artists = results.filter {
             switch $0 {
             case .artist:
@@ -60,15 +72,7 @@ class SearchResultViewController: UIViewController {
             default: return false
             }
         }
-        
-        let track = results.filter {
-            switch $0 {
-            case .track:
-                return true
-            default: return false
-            }
-        }
-        
+    
         let playlist = results.filter {
             switch $0 {
             case .playlist:
@@ -78,9 +82,9 @@ class SearchResultViewController: UIViewController {
         }
         
         self.sections = [
+            SearchSection(title: "Song", results: track),
             SearchSection(title: "Artist", results: artists),
             SearchSection(title: "Album", results: albums),
-            SearchSection(title: "Track", results: track),
             SearchSection(title: "Playlist", results: playlist)
         ]
         tableView.reloadData()
@@ -97,11 +101,16 @@ extension SearchResultViewController: UITableViewDelegate{
         let result = sections[indexPath.section].results[indexPath.row]
         switch result {
         case .artist(let model):
-            break
+            print(model)
+            guard let url = URL(string: model.external_urls["spotify"] ?? "") else {
+                return
+            }
+            let controller = SFSafariViewController(url: url)
+            present(controller, animated: true, completion: nil)
+            
         case .album(let model):
             let controller = AlbumViewController(album: model)
             controller.navigationItem.largeTitleDisplayMode = .never
-            let navController = UINavigationController(rootViewController: controller)
             delegate?.showResult(controller: controller)
         case .playlist(let model):
             let controller = PlaylistViewController(playlist: model)
@@ -126,19 +135,54 @@ extension SearchResultViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let acell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let result = sections[indexPath.section].results[indexPath.row]
         switch result {
-        case .artist(let model):
-            cell.textLabel?.text = model.name
-        case .album(let model):
-            cell.textLabel?.text = model.name
-        case.playlist(let model):
-            cell.textLabel?.text = model.name
+        
         case .track(let model):
-            cell.textLabel?.text = model.name
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier, for: indexPath) as? SearchResultSubtitleTableViewCell else {
+                return UITableViewCell()
+            }
+            let viewModel = SearchResultSubtitleTableViewCellViewModel(
+                title: model.name,
+                subtitle: model.artists.first?.name ?? "-",
+                imageURL: URL(string: model.album?.images.first?.url ?? ""))
+            cell.configure(with: viewModel)
+            return cell
+    
+        case .artist(let model):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultDefaultTableViewCell.identifier, for: indexPath) as? SearchResultDefaultTableViewCell else {
+                return UITableViewCell()
+            }
+            let viewModel = SearchResultDefaultTableViewCellViewModel(
+                title: model.name,
+                imageURL: URL(string: model.images?.first?.url ?? ""))
+            cell.configure(with: viewModel)
+            return cell
+            
+        case .album(let model):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier, for: indexPath) as? SearchResultSubtitleTableViewCell else {
+                return UITableViewCell()
+            }
+            let viewModel = SearchResultSubtitleTableViewCellViewModel(
+                title: model.name,
+                subtitle: model.artists.first?.name ?? "-",
+                imageURL: URL(string: model.images.first?.url ?? ""))
+            cell.configure(with: viewModel)
+            return cell
+            
+        case.playlist(let model):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier, for: indexPath) as? SearchResultSubtitleTableViewCell else {
+                return UITableViewCell()
+            }
+            let viewModel = SearchResultSubtitleTableViewCellViewModel(
+                title: model.name,
+                subtitle: model.owner.display_name,
+                imageURL: URL(string: model.images.first?.url ?? ""))
+            cell.configure(with: viewModel)
+            return cell
         }
-        return cell
+        return acell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

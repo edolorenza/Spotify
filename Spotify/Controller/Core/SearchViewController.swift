@@ -13,7 +13,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
     let searchController: UISearchController = {
         let result = SearchResultViewController()
         let vc = UISearchController(searchResultsController: result)
-        vc.searchBar.placeholder = "Songs, Artists, Albums, Tracks"
+        vc.searchBar.placeholder = "Songs, Artists, Albums, Playlists"
         vc.searchBar.searchBarStyle = .minimal
         vc.definesPresentationContext = true
         return vc
