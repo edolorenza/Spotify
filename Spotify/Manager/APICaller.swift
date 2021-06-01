@@ -187,17 +187,16 @@ final class APICaller {
     
     //MARK: - Get Category playlist
     public func getCategoryPlaylist(categori: Category, completion: @escaping (Result<[Playlist], Error>) -> Void){
-        createRequest(with: URL(string: Constants.baseAPIURL+"/browse/categories/\(categori.id)/playlists?limit=2"), type: .GET) { request in
+        createRequest(with: URL(string: Constants.baseAPIURL+"/browse/categories/\(categori.id)/playlists?limit=50"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request){ data, _, error in
-                print(request)
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
                     return
                 }
                 do{
                     let result = try JSONDecoder().decode(CategoryPlaylistsResponse.self, from: data)
-                    let playlist = result.playlists.items
-                    completion(.success(playlist))
+                    let playlists = result.playlists.items
+                    completion(.success(playlists))
                 }
                 catch{
                     print(error.localizedDescription)

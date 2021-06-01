@@ -94,7 +94,13 @@ extension SearchViewController {
 
 //MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
-   
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let category = categories[indexPath.row]
+        let controller = CategoryViewController(category: category)
+        controller.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 //MARK: - UICollectionViewDataSource

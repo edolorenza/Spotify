@@ -24,7 +24,6 @@ class FeaturedPlaylistViewCell: UICollectionViewCell {
     private let playlistNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.numberOfLines = 0
         return label
     }()
     
@@ -65,7 +64,7 @@ class FeaturedPlaylistViewCell: UICollectionViewCell {
     
 
         addSubview(playlistNameLabel)
-        playlistNameLabel.anchor(top: artworkCoverImageView.bottomAnchor, left: leftAnchor, paddingTop: 4)
+        playlistNameLabel.anchor(top: artworkCoverImageView.bottomAnchor, left: leftAnchor,right: rightAnchor, paddingTop: 4, paddingRight: 0)
 
         addSubview(creatorNameLabel)
         creatorNameLabel.anchor(top: playlistNameLabel.bottomAnchor, left: leftAnchor,  paddingTop: 4)
