@@ -160,7 +160,6 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 //MARK: - PlaylitCollectionDelegate
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate{
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        let images = album.images.first?.url
         let trackWithAlbum: [AudioTrack] = track.compactMap {
             var track = $0
             track.album = self.album

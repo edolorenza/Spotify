@@ -135,7 +135,6 @@ extension SearchResultViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let acell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let result = sections[indexPath.section].results[indexPath.row]
         switch result {
         
@@ -182,7 +181,6 @@ extension SearchResultViewController: UITableViewDataSource{
             cell.configure(with: viewModel)
             return cell
         }
-        return acell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
