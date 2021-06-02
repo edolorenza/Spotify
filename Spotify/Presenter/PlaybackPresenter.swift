@@ -36,6 +36,7 @@ final class PlaybackPresenter {
     
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer?
+    var playerController: PlayerViewController?
     
     func startPlayback(
         from viewController: UIViewController,
@@ -56,6 +57,7 @@ final class PlaybackPresenter {
         viewController.present(UINavigationController(rootViewController: controller), animated: true) {[weak self]  in
             self?.player?.play()
         }
+        self.playerController = controller
     }
     
      func startPlayback(
@@ -135,12 +137,10 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
             //not playlist or album
             player?.pause()
             player?.play()
-        } else if let firstItem = playerQueue?.items().first{
-            playerQueue?.pause()
-            playerQueue?.removeAllItems()
-            playerQueue = AVQueuePlayer(items: [firstItem])
-            playerQueue?.play()
-            playerQueue?.volume = 0.5
+        } else if let player = playerQueue {
+            player.advanceToNextItem()
+            index += 1
+            playerController?.refreshUI()
         }
     }
     

@@ -67,6 +67,10 @@ class PlayerViewController: UIViewController {
                                 subtitle: dataSource?.subtitle))
     }
     
+    func refreshUI(){
+        configureDataSource()
+    }
+    
 }
 
 //MARK: - PlayerControlsViewDelegate
