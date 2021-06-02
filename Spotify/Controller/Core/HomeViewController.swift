@@ -222,7 +222,7 @@ extension HomeViewController: UICollectionViewDelegate {
             navigationController?.pushViewController(controller, animated: true)
         case .RecomendationsTracks:
             let track = track[indexPath.row]
-            PlaybackPresenter.startPlayback(from: self, track: track)
+            PlaybackPresenter.shared.startPlayback(from: self, track: track)
             break
         }
     }

@@ -8,9 +8,15 @@
 import UIKit
 
 protocol PlayerControlsViewDelegate: AnyObject {
-    func PlayerControlsViewDidTapPlayPause(_ playerControlView: PlayerControlsView)
-    func PlayerControlsViewDidTapBackwardButton(_ playerControlView: PlayerControlsView)
-    func PlayerControlsViewDidTapForwardButton(_ playerControlView: PlayerControlsView)
+    func playerControlsViewDidTapPlayPause(_ playerControlView: PlayerControlsView)
+    func playerControlsViewDidTapBackwardButton(_ playerControlView: PlayerControlsView)
+    func playerControlsViewDidTapForwardButton(_ playerControlView: PlayerControlsView)
+    func playerControlsView(_ playerControlView: PlayerControlsView, didSlideSlider value: Float)
+}
+
+struct PlayerControlsViewViewModel {
+    let title: String?
+    let subtitle: String?
 }
 
 final class PlayerControlsView: UIView {
@@ -22,6 +28,8 @@ final class PlayerControlsView: UIView {
         slider.value = 0.5
         return slider
     }()
+    
+    private var isPlaying = true
     
     private let songTitleLabel: UILabel = {
         let label = UILabel()
@@ -82,17 +90,27 @@ final class PlayerControlsView: UIView {
     
     //MARK: - Actions
     @objc func didTapBack() {
-        delegate?.PlayerControlsViewDidTapBackwardButton(self)
+        
+        delegate?.playerControlsViewDidTapBackwardButton(self)
     }
     
     @objc func didTapPlayPause() {
-        delegate?.PlayerControlsViewDidTapPlayPause(self)
+        delegate?.playerControlsViewDidTapPlayPause(self)
+        self.isPlaying = !isPlaying
+        let pause = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
+        let play = UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
+        //update button
+        playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
     }
     
     @objc func didTapNext() {
-        delegate?.PlayerControlsViewDidTapForwardButton(self)
+        delegate?.playerControlsViewDidTapForwardButton(self)
     }
     
+    @objc func didSlideSlider(_ slider: UISlider){
+        let value = slider.value
+        delegate?.playerControlsView(self, didSlideSlider: value)
+    }
     
     //MARK: - Helpers
     private func setupView(){
@@ -106,6 +124,7 @@ final class PlayerControlsView: UIView {
         
         addSubview(volumeSlider)
         volumeSlider.anchor(top: subtitleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 16,  paddingLeft: 16, paddingRight: 16)
+        volumeSlider.addTarget(self, action: #selector(didSlideSlider), for: .valueChanged )
         
         let stack = UIStackView(arrangedSubviews: [backButton, playPauseButton, nextButton])
         addSubview(stack)
@@ -117,9 +136,13 @@ final class PlayerControlsView: UIView {
 
         stack.distribution = .fillEqually
         stack.axis = .horizontal
-        stack.spacing = 16
+        stack.spacing = 32
         stack.centerX(inView: self)
         stack.anchor(top: volumeSlider.bottomAnchor, paddingTop: 16)
-        
+    }
+    
+    func configure(with viewModel: PlayerControlsViewViewModel){
+        songTitleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
     }
 }
