@@ -239,9 +239,9 @@
 		6BFDE9A32659250200A886B4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6BFDE9C92659271200A886B4 /* Artist.swift */,
 				6BFDE9C5265926FE00A886B4 /* Playlist.swift */,
 				6BFDE9C72659270700A886B4 /* AudioTrack.swift */,
-				6BFDE9C92659271200A886B4 /* Artist.swift */,
 				6BFDE9CB2659271E00A886B4 /* UserProfile.swift */,
 				6BEA81E0265B4E5800479602 /* AuthResponse.swift */,
 				6BEA81E2265B6A2300479602 /* SettingsModel.swift */,

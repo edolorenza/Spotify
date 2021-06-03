@@ -53,6 +53,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettings))
         setupView()
+        addLongTapGesture()
     }
     
     override func viewDidLayoutSubviews() {
@@ -147,6 +148,48 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
+    @objc func didTapLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        
+        let touchPoint = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint),
+              indexPath.section == 2
+        else {
+                return
+        }
+        
+        let model = track[indexPath.row]
+        
+        let actionSheet = UIAlertController(
+            title: model.name,
+            message: "Would you like to add this to playlist",
+            preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Add to Playlist", style: .default, handler: {[weak self] _ in
+            DispatchQueue.main.async {
+                let controller = LibraryPlaylistsViewController()
+                controller.selectionHandler = {[weak self] playlist in
+                    APICaller.shared.addTrackToPlaylist(track: model, playlist: playlist) { success in
+                        if success {
+                            self?.addTrackAlert()
+                        }else{
+                            
+                        }
+                    }
+                }
+                controller.title = "Select Playlist"
+                
+                self?.present(UINavigationController(rootViewController: controller), animated: true)
+            }
+        }))
+        present(actionSheet, animated: true)
+    }
+    
+
+    
     //MARK: - Helpers
     private func setupView(){
         configureCollectionView()
@@ -199,6 +242,19 @@ class HomeViewController: UIViewController {
         })))
         collectionView.reloadData()
     }
+    
+    private func addLongTapGesture(){
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didTapLongPress(_:)))
+        collectionView.isUserInteractionEnabled = true
+        collectionView.addGestureRecognizer(gesture)
+    }
+    
+    private func addTrackAlert(){
+        let alert = UIAlertController(title: "Success", message: "Success add track to playlist", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+   
 }
   
 

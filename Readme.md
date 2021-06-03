@@ -30,3 +30,4 @@
 [GET: Search for an item](https://developer.spotify.com/documentation/web-api/reference/#endpoint-search)<br>
 [GET: Current User Playlists](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-list-of-current-users-playlists)<br>
 [POST: Create a Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-create-playlist)<br>
+[POST: Add item to a Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist)<br>

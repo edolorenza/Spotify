@@ -14,17 +14,26 @@ class LibraryPlaylistsViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.clipsToBounds = true
         tableView.register(SearchResultSubtitleTableViewCell.self, forCellReuseIdentifier: SearchResultSubtitleTableViewCell.identifier)
         return tableView
     }()
     
+    
+    public var selectionHandler: ((Playlist) -> Void)?
+    
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupView()
         setupTableView()
         noPlaylist.delegate = self
         fetchData()
+        
+        if selectionHandler != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -32,6 +41,8 @@ class LibraryPlaylistsViewController: UIViewController {
         view.addSubview(noPlaylist)
         noPlaylist.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
         noPlaylist.center = view.center
+        view.addSubview(tableView)
+        tableView.frame = view.bounds
     }
     
     //MARK: - API
@@ -49,6 +60,10 @@ class LibraryPlaylistsViewController: UIViewController {
         }
     }
     
+    //MARK: - Actions
+    @objc private func didTapClose(){
+        dismiss(animated: true, completion: nil)
+    }
     //MARK: - Helpers
     private func setupView(){
         noPlaylist.configure(with: ActionLabelViewViewModel(
@@ -69,8 +84,7 @@ class LibraryPlaylistsViewController: UIViewController {
     }
     
     private func setupTableView(){
-        view.addSubview(tableView)
-        tableView.frame = view.bounds
+
         tableView.isHidden = true
         tableView.delegate = self
         tableView.dataSource = self
@@ -92,7 +106,7 @@ class LibraryPlaylistsViewController: UIViewController {
             
             APICaller.shared.createPlaylis(name: text) { success in
                 if success{
-                    // refresh list of playlist
+                    self.fetchData()
                 }
                 else {
                     print("failed to create playlist")
@@ -114,6 +128,12 @@ extension LibraryPlaylistsViewController: ActionLabelViewDelegate{
 extension LibraryPlaylistsViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playlist = playlists[indexPath.row]
+        guard  selectionHandler == nil else {
+            selectionHandler?(playlist)
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        
         let controller = PlaylistViewController(playlist: playlist)
         controller.title = playlist.name
         controller.navigationItem.largeTitleDisplayMode = .never
@@ -141,6 +161,6 @@ extension LibraryPlaylistsViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
 }
