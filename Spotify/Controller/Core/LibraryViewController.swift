@@ -61,6 +61,7 @@ class LibraryViewController: UIViewController {
             self.layoutIndicator()
         }
         scrollView.setContentOffset(.zero, animated: true)
+        
     }
     
     @objc func didTapAlbums(){
@@ -71,6 +72,9 @@ class LibraryViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: true)
     }
     
+    @objc func didTapAdd() {
+        playlistsVC.showCreatePlaylistsAlert()
+    }
     //MARK: - Helpers
     private func setupView(){
         view.backgroundColor = .systemBackground
@@ -85,6 +89,8 @@ class LibraryViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width*2, height: scrollView.frame.height)
 
         addChildren()
+        
+        updateBarButton()
       
     }
     
@@ -136,6 +142,14 @@ class LibraryViewController: UIViewController {
         }
     }
 
+    private func updateBarButton(){
+        switch state {
+        case .playlists:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+        case .albums:
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
 }
 
 //MARK: - UIScrollViewDelegate
@@ -143,8 +157,10 @@ extension LibraryViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.x >= (view.frame.width-80){
             update(for: .albums)
+            updateBarButton()
         }else{
             update(for: .playlists)
+            updateBarButton()
         }
     }
     

@@ -38,6 +38,7 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier )
         setupView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -52,16 +53,21 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
         subtitleLabel.text = nil
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let imageSize: CGFloat = contentView.frame.height-10
+        iconImageView.setDimensions(height: imageSize, width: imageSize)
+    }
+    
     //MARK: - Helpers
     private func setupView() {
         
         self.accessoryType = .disclosureIndicator
         
         addSubview(iconImageView)
-        let iconImageSize = contentView.frame.height-8
+        
         iconImageView.centerY(inView: self)
         iconImageView.anchor(left: leftAnchor, paddingLeft: 4)
-        iconImageView.setDimensions(height: iconImageSize, width: iconImageSize)
         
         let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         addSubview(stack)
@@ -69,13 +75,13 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
         stack.axis = .vertical
         stack.spacing = 4
         stack.centerY(inView: iconImageView)
-        stack.anchor(left: iconImageView.rightAnchor, right: rightAnchor, paddingLeft: 4, paddingRight: 16)
+        stack.anchor(left: iconImageView.rightAnchor, right: rightAnchor, paddingLeft: 8, paddingRight: 16)
       
     }
     
     func configure(with viewModel: SearchResultSubtitleTableViewCellViewModel){
         titleLabel.text = viewModel.title
-        iconImageView.sd_setImage(with: viewModel.imageURL)
+        iconImageView.sd_setImage(with: viewModel.imageURL, placeholderImage: UIImage(systemName: "photo"))
         subtitleLabel.text = viewModel.subtitle
     }
     

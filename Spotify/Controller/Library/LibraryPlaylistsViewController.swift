@@ -12,10 +12,17 @@ class LibraryPlaylistsViewController: UIViewController {
     var playlists = [Playlist]()
     private let noPlaylist = ActionLabelView()
     
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(SearchResultSubtitleTableViewCell.self, forCellReuseIdentifier: SearchResultSubtitleTableViewCell.identifier)
+        return tableView
+    }()
+    
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupTableView()
         noPlaylist.delegate = self
         fetchData()
     }
@@ -55,15 +62,21 @@ class LibraryPlaylistsViewController: UIViewController {
         if playlists.isEmpty {
             noPlaylist.isHidden = false
         }else {
-            noPlaylist.isHidden = false
+            tableView.reloadData()
+            tableView.isHidden = false
+            
         }
     }
     
-}
-
-//MARK: - ActionLabelViewDelegate
-extension LibraryPlaylistsViewController: ActionLabelViewDelegate{
-    func actionLabelViewDidTapButton(_ actionView: ActionLabelView) {
+    private func setupTableView(){
+        view.addSubview(tableView)
+        tableView.frame = view.bounds
+        tableView.isHidden = true
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    public func showCreatePlaylistsAlert(){
         let alert = UIAlertController(title: "New Playlists", message: "Enter Playlists Name", preferredStyle: .alert)
         alert.addTextField { textField in
             textField.placeholder = "Playlists..."
@@ -87,5 +100,47 @@ extension LibraryPlaylistsViewController: ActionLabelViewDelegate{
             }
         }))
         present(alert, animated: true)
+    }
+}
+
+//MARK: - ActionLabelViewDelegate
+extension LibraryPlaylistsViewController: ActionLabelViewDelegate{
+    func actionLabelViewDidTapButton(_ actionView: ActionLabelView) {
+       showCreatePlaylistsAlert()
+    }
+}
+
+//MARK: - UITableViewDelegate
+extension LibraryPlaylistsViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let playlist = playlists[indexPath.row]
+        let controller = PlaylistViewController(playlist: playlist)
+        controller.title = playlist.name
+        controller.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+//MARK: - UITableViewDataSource
+extension LibraryPlaylistsViewController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return playlists.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier, for: indexPath) as? SearchResultSubtitleTableViewCell else {
+            return UITableViewCell()
+        }
+        let playlist = playlists[indexPath.row]
+        cell.configure(with: SearchResultSubtitleTableViewCellViewModel(
+                        title: playlist.name,
+                        subtitle: playlist.owner.display_name,
+                        imageURL: URL(string:playlist.images.first?.url ?? "")))
+        cell.backgroundColor = .systemBackground
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }

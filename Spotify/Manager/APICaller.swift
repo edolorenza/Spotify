@@ -238,7 +238,7 @@ final class APICaller {
     
     //MARK: - Get Current User Playlists
     public func getCurrentUserPlaylists(completion: @escaping(Result<[Playlist], Error>) -> Void){
-        createRequest(with: URL(string: Constants.baseAPIURL+"/me/playlists/?limit=2"), type: .GET) { baseRequest in
+        createRequest(with: URL(string: Constants.baseAPIURL+"/me/playlists/?limit=50"), type: .GET) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else{
                     completion(.failure(APIError.failedToGetData))
@@ -257,6 +257,49 @@ final class APICaller {
         }
     }
     
+    //MARK: - Create Playlists
+    public func createPlaylis(name: String, completion: @escaping(Bool) -> Void ){
+        getCurrentUserProfile {[weak self] result in
+            switch result{
+            case.success(let profile):
+                let urlString = Constants.baseAPIURL+"/users/\(profile.id)/playlists"
+                self?.createRequest(with: URL(string:urlString), type: .POST, completion: { baseRequest in
+                    
+                    var request = baseRequest
+                    let json = [
+                        "name": name
+                    ]
+                    request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    
+                    let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                        guard let data = data, error == nil else{
+                            completion(false)
+                            return
+                        }
+            
+                        do{
+                            let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                            if let response = result as? [String: Any], response["id"] as? String != nil {
+                                completion(true)
+                                print("created")
+                            }else {
+                                completion(false)
+                                print("failed to get id")
+                            }
+                        }
+                        catch{
+                            print(error.localizedDescription)
+                            completion(false)
+                        }
+                    }
+                    task.resume()
+                    
+                })
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     //MARK: - Private
     
