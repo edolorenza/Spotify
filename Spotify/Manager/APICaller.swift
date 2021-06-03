@@ -235,6 +235,29 @@ final class APICaller {
         }
     }
     
+    
+    //MARK: - Get Current User Playlists
+    public func getCurrentUserPlaylists(completion: @escaping(Result<[Playlist], Error>) -> Void){
+        createRequest(with: URL(string: Constants.baseAPIURL+"/me/playlists/?limit=2"), type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else{
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+    
+                do{
+                    let result = try JSONDecoder().decode(LibraryPlaylistsResponse.self, from: data)
+                    completion(.success(result.items))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
     //MARK: - Private
     
     enum HTTPMethod: String{
