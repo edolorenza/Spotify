@@ -32,3 +32,4 @@
 [POST: Create a Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-create-playlist)<br>
 [POST: Add item to a Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist)<br>
 [DELETE: Remove item from a Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)<br>
+[GET: User's Saved Albums](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-users-saved-albums)<br>
