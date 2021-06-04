@@ -342,7 +342,6 @@ final class APICaller {
         createRequest(with: URL(string:Constants.baseAPIURL+"/playlists/\(playlist.id)/tracks"), type: .DELETE) { baseRequest in
             
             var request = baseRequest
-            print(request)
             let json: [String: Any] = [
                 "tracks": [
                     [
@@ -419,6 +418,26 @@ final class APICaller {
                 task.resume()
             }
         }
+    
+    
+    //MARK: - Remove album from library
+    public func removeAlbumFromPlaylist(album: SavedAlbum, completion: @escaping(Bool) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/me/albums?ids=\(album.album.id)"), type: .DELETE) { baseRequest in
+            
+            var request = baseRequest
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let code = (response as? HTTPURLResponse)?.statusCode,
+                      error == nil else {
+                    completion(false)
+                    return
+                }
+                completion(code == 200)
+            }
+            task.resume()
+        }
+    }
     
     //MARK: - Private
     

@@ -32,7 +32,10 @@ class LibraryAlbumsViewController: UIViewController {
         observer = NotificationCenter.default.addObserver(forName: .albumSavedNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.fetchData()
         })
-    
+        
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        tableView.addGestureRecognizer(gesture)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,6 +67,50 @@ class LibraryAlbumsViewController: UIViewController {
     @objc private func didTapClose(){
         dismiss(animated: true, completion: nil)
     }
+    
+    @objc func didLongPress(_ gesture: UILongPressGestureRecognizer){
+        guard gesture.state == .began else {
+            return
+        }
+        let touchPoint = gesture.location(in: self.tableView)
+        guard let indexPath = tableView.indexPathForRow(at: touchPoint) else {
+            return
+        }
+        
+        let albumTodelete = albums[indexPath.row]
+        let actionSheet = UIAlertController(
+            title: albumTodelete.album.name,
+            message: "Would you like to remove this from playlist",
+            preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(
+                                title: "Cancel",
+                                style: .cancel,
+                                handler: nil))
+        actionSheet.addAction(UIAlertAction(
+        title: "Remove",
+        style: .destructive,
+        handler: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            APICaller.shared.removeAlbumFromPlaylist(album: albumTodelete) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        strongSelf.albums.remove(at: indexPath.row)
+                        strongSelf.tableView.reloadData()
+                        
+                        let alert = UIAlertController(title: "Success", message: "Success remove track to playlist", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+                        strongSelf.present(alert, animated: true)
+                    }else {
+                        print("failed to delte")
+                    }
+                }
+            }
+        }))
+
+    present(actionSheet, animated: true, completion: nil)
+    }
+    
+    
     //MARK: - Helpers
     private func setupView(){
         noAlbums.configure(with: ActionLabelViewViewModel(
@@ -111,6 +158,8 @@ extension LibraryAlbumsViewController: UITableViewDelegate{
         controller.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(controller, animated: true)
     }
+    
+    
 }
 
 //MARK: - UITableViewDataSource
