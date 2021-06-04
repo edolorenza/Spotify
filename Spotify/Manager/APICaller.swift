@@ -363,7 +363,6 @@ final class APICaller {
                     let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     if let response = result as? [String: Any], response["snapshot_id"] as? String != nil {
                         completion(true)
-                        print("delete track\(response)")
                     }else {
                         completion(false)
                         print("failed to get id")

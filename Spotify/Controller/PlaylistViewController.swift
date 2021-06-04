@@ -106,7 +106,9 @@ class PlaylistViewController: UIViewController {
                         strongSelf.collectionView.reloadData()
                         
                         let alert = UIAlertController(title: "Success", message: "Success remove track to playlist", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: {_ in
+                            NotificationCenter.default.post(name: .playlistSavedNotification, object: nil)
+                        }))
                         strongSelf.present(alert, animated: true)
                     }else{
                         HapticsManager.shared.vibrate(for: .error)
