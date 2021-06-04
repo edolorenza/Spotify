@@ -27,6 +27,7 @@ final class PlaybackPresenter {
             return track
         }
         else if let player = self.playerQueue, !tracks.isEmpty {
+            print(player)
             return tracks[index]
         }
 

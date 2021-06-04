@@ -25,6 +25,22 @@ class SettingsViewController: UIViewController {
         configureModel()
     }
     
+    //MARK: - Actions
+    private func viewProfileTapped(){
+        let controller = ProfileViewController()
+        controller.title = "Profile"
+        controller.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    private func signOutTapped(){
+        AuthManager.shared.signOut {[weak self] success in
+            if success {
+                self?.showLogOutAlert()
+            }
+        }
+    }
+    
     //MARK: - Helpers
    private func setupView(){
         view.backgroundColor = .systemBackground
@@ -52,20 +68,22 @@ class SettingsViewController: UIViewController {
         })]))
     }
     
-    private func viewProfileTapped(){
-        let controller = ProfileViewController()
-        controller.title = "Profile"
-        controller.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(controller, animated: true)
+    private func showLogOutAlert(){
+        let alert = UIAlertController(title: "Sign Out", message: "Are you sure ?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "yes", style: .default, handler: {[weak self] _ in
+            DispatchQueue.main.async {
+                let navVC = UINavigationController(rootViewController: WelcomeViewController())
+                navVC.navigationBar.prefersLargeTitles = true
+                navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+                navVC.modalPresentationStyle = .fullScreen
+                self?.present(navVC, animated: true, completion: {
+                    self?.navigationController?.popToRootViewController(animated: false)
+                })
+            }
+        }))
+        present(alert, animated: true)
     }
-    
-    private func signOutTapped(){
-        let controller = WelcomeViewController()
-        controller.title = "Welcome"
-        navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    
 }
 
 //MARK: - TableViewDelegate
