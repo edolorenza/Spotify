@@ -118,15 +118,14 @@ extension SearchViewController: SearchResultViewControllerDelegate{
 //MARK: - Search Bar update Result
 extension SearchViewController {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let resultController = searchController.searchResultsController as? SearchResultViewController ,let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            return
-        }
+        
     }
 }
 
 //MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        HapticsManager.shared.vibrateForSelection()
         collectionView.deselectItem(at: indexPath, animated: true)
         let category = categories[indexPath.row]
         let controller = CategoryViewController(category: category)

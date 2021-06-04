@@ -81,6 +81,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     //MARK: - Helpers
     private func setupView() {
         let imageSize = frame.width/1.5
+        backgroundColor = .systemBackground
         addSubview(playlistImageView)
         playlistImageView.centerX(inView: self)
         playlistImageView.anchor(top:topAnchor, paddingTop: 8)

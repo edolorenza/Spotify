@@ -83,6 +83,7 @@ class AlbumViewController: UIViewController {
     //MARK: - Helpers
     private func setupView(){
         title = album.name
+        view.backgroundColor = .secondaryLabel
         view.addSubview(collectionView)
         collectionView.frame = view.bounds
         collectionView.register(AlbumTrackCollectionViewCell.self, forCellWithReuseIdentifier: AlbumTrackCollectionViewCell.identifier)
@@ -105,7 +106,7 @@ class AlbumViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if success{
-                        
+                        HapticsManager.shared.vibrate(for: .success)
                         let alert = UIAlertController(title: "Success", message: "Success saved album to library", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: {_ in
                             NotificationCenter.default.post(name: .albumSavedNotification, object: nil)

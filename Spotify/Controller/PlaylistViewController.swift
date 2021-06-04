@@ -100,6 +100,7 @@ class PlaylistViewController: UIViewController {
             APICaller.shared.removeTrackFromPlaylist(track: trackToDelete, playlist: strongSelf.playlist) { success in
                 DispatchQueue.main.async {
                     if success {
+                        HapticsManager.shared.vibrate(for: .success)
                         strongSelf.track.remove(at: indexPath.row)
                         strongSelf.viewModels.remove(at: indexPath.row)
                         strongSelf.collectionView.reloadData()
@@ -107,6 +108,8 @@ class PlaylistViewController: UIViewController {
                         let alert = UIAlertController(title: "Success", message: "Success remove track to playlist", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
                         strongSelf.present(alert, animated: true)
+                    }else{
+                        HapticsManager.shared.vibrate(for: .error)
                     }
                 }
             }

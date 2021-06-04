@@ -94,6 +94,7 @@ class LibraryAlbumsViewController: UIViewController {
             APICaller.shared.removeAlbumFromPlaylist(album: albumTodelete) { success in
                 DispatchQueue.main.async {
                     if success {
+                        HapticsManager.shared.vibrate(for: .success)
                         strongSelf.albums.remove(at: indexPath.row)
                         strongSelf.tableView.reloadData()
                         
@@ -102,6 +103,7 @@ class LibraryAlbumsViewController: UIViewController {
                         strongSelf.present(alert, animated: true)
                     }else {
                         print("failed to delte")
+                        HapticsManager.shared.vibrate(for: .error)
                     }
                 }
             }
@@ -150,9 +152,8 @@ extension LibraryAlbumsViewController: ActionLabelViewDelegate{
 //MARK: - UITableViewDelegate
 extension LibraryAlbumsViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HapticsManager.shared.vibrateForSelection()
         let savedAlbums = albums[indexPath.row]
-       
-        
         let controller = AlbumViewController(album: savedAlbums.album)
         controller.title = savedAlbums.album.name
         controller.navigationItem.largeTitleDisplayMode = .never

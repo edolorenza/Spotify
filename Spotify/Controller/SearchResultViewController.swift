@@ -40,7 +40,7 @@ class SearchResultViewController: UIViewController {
 
     //MARK: - Helpers
     private func setupView(){
-        view.backgroundColor = .clear
+        view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         tableView.frame = view.bounds
         tableView.delegate = self

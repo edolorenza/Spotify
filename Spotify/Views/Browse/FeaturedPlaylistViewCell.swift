@@ -57,16 +57,16 @@ class FeaturedPlaylistViewCell: UICollectionViewCell {
     private func setupView() {
      
         let imageWidth: CGFloat = contentView.frame.width
-//        contentView.backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
         addSubview(artworkCoverImageView)
         artworkCoverImageView.anchor(top: topAnchor)
         artworkCoverImageView.setDimensions(height: 160, width: imageWidth)
     
 
-        addSubview(playlistNameLabel)
+        contentView.addSubview(playlistNameLabel)
         playlistNameLabel.anchor(top: artworkCoverImageView.bottomAnchor, left: leftAnchor,right: rightAnchor, paddingTop: 4, paddingRight: 0)
 
-        addSubview(creatorNameLabel)
+        contentView.addSubview(creatorNameLabel)
         creatorNameLabel.anchor(top: playlistNameLabel.bottomAnchor, left: leftAnchor,  paddingTop: 4)
     }
     
