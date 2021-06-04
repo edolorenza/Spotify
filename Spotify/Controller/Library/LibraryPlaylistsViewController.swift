@@ -19,7 +19,7 @@ class LibraryPlaylistsViewController: UIViewController {
         return tableView
     }()
     
-    
+    private var observer: NSObjectProtocol?
     public var selectionHandler: ((Playlist) -> Void)?
     
     //MARK: - lifecycle
@@ -30,6 +30,10 @@ class LibraryPlaylistsViewController: UIViewController {
         setupTableView()
         noPlaylist.delegate = self
         fetchData()
+        
+        observer = NotificationCenter.default.addObserver(forName: .playlistSavedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.fetchData()
+        })
         
         if selectionHandler != nil {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
@@ -48,6 +52,7 @@ class LibraryPlaylistsViewController: UIViewController {
     //MARK: - API
     func fetchData(){
         APICaller.shared.getCurrentUserPlaylists {[weak self] result in
+            self?.playlists.removeAll()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let playlists):

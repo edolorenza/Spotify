@@ -251,7 +251,10 @@ class HomeViewController: UIViewController {
     
     private func addTrackAlert(){
         let alert = UIAlertController(title: "Success", message: "Success add track to playlist", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: {_ in
+          NotificationCenter.default.post(name: .playlistSavedNotification, object: nil)
+        }))
+                                
         present(alert, animated: true)
     }
    
