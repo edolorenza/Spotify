@@ -19,6 +19,8 @@ class LibraryAlbumsViewController: UIViewController {
         return tableView
     }()
     
+    private var observer: NSObjectProtocol?
+    
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +29,9 @@ class LibraryAlbumsViewController: UIViewController {
         setupTableView()
         noAlbums.delegate = self
         fetchData()
+        observer = NotificationCenter.default.addObserver(forName: .albumSavedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.fetchData()
+        })
     
     }
     
@@ -42,6 +47,7 @@ class LibraryAlbumsViewController: UIViewController {
     //MARK: - API
     func fetchData(){
         APICaller.shared.getCurrentUserAlbums {[weak self] result in
+            self?.albums.removeAll()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let albums):

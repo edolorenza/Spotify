@@ -34,3 +34,4 @@
 [DELETE: Remove item from a Playlist](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)<br>
 [GET: User's Saved Albums](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-users-saved-albums)<br>
 [PUT: Save Albums for Current User](https://developer.spotify.com/documentation/web-api/reference/#endpoint-save-albums-user)<br>
+[Delete: Remove Albums for Current User](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-albums-user)<br>

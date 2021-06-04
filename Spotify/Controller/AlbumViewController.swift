@@ -82,9 +82,6 @@ class AlbumViewController: UIViewController {
     
     //MARK: - Helpers
     private func setupView(){
-        //share button
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
-        
         title = album.name
         view.addSubview(collectionView)
         collectionView.frame = view.bounds
@@ -96,19 +93,7 @@ class AlbumViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapActions))
 
     }
-//
-//    //MARK: - Actions
-//    @objc private func didTapShare(){
-//        guard let url = URL(string: album.artists.first?.external_urls["spotify"] ?? "") else {
-//            return
-//        }
-//        print("debug: share url \(url)")
-//        let controller = UIActivityViewController(
-//            activityItems: [url],
-//                         applicationActivities: [])
-//        controller.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-//        present(controller, animated: true)
-//    }
+
     
     @objc func didTapActions(){
 
@@ -122,7 +107,9 @@ class AlbumViewController: UIViewController {
                     if success{
                         
                         let alert = UIAlertController(title: "Success", message: "Success saved album to library", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: {_ in
+                            NotificationCenter.default.post(name: .albumSavedNotification, object: nil)
+                        }))
                         strongSelf.present(alert, animated: true)
                         
                     }else{
