@@ -401,12 +401,32 @@ final class APICaller {
         }
     }
     
+    //MARK: - Add albums To user library
+    public func addAlbumToLibrary(album: Album, completion: @escaping(Bool) -> Void ) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/me/albums?ids=\(album.id)"),
+            type: .PUT) { baseRequest in
+                var request = baseRequest
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    guard let code = (response as? HTTPURLResponse)?.statusCode,
+                          error == nil else {
+                        completion(false)
+                        return
+                    }
+                    completion(code == 200)
+                }
+                task.resume()
+            }
+        }
+    
     //MARK: - Private
     
     enum HTTPMethod: String{
         case GET
         case POST
         case DELETE
+        case PUT
     }
     private func createRequest(with url: URL?, type: HTTPMethod, completion: @escaping (URLRequest) -> Void){
         AuthManager.shared.withValidToken { token  in

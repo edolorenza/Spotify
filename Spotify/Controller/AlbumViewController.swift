@@ -83,7 +83,7 @@ class AlbumViewController: UIViewController {
     //MARK: - Helpers
     private func setupView(){
         //share button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
         
         title = album.name
         view.addSubview(collectionView)
@@ -92,20 +92,49 @@ class AlbumViewController: UIViewController {
         collectionView.register(PlaylistHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistHeaderCollectionReusableView.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapActions))
 
     }
+//
+//    //MARK: - Actions
+//    @objc private func didTapShare(){
+//        guard let url = URL(string: album.artists.first?.external_urls["spotify"] ?? "") else {
+//            return
+//        }
+//        print("debug: share url \(url)")
+//        let controller = UIActivityViewController(
+//            activityItems: [url],
+//                         applicationActivities: [])
+//        controller.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+//        present(controller, animated: true)
+//    }
     
-    //MARK: - Actions
-    @objc private func didTapShare(){
-        guard let url = URL(string: album.artists.first?.external_urls["spotify"] ?? "") else {
-            return
-        }
-        print("debug: share url \(url)")
-        let controller = UIActivityViewController(
-            activityItems: [url],
-                         applicationActivities: [])
-        controller.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-        present(controller, animated: true)
+    @objc func didTapActions(){
+
+        let actionSheet = UIAlertController(title: album.name, message: "Actions", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Save Album", style: .default, handler: {[weak self] _ in
+            guard let strongSelf = self else { return }
+            APICaller.shared.addAlbumToLibrary(album: strongSelf.album) { success in
+                
+                DispatchQueue.main.async {
+                    if success{
+                        
+                        let alert = UIAlertController(title: "Success", message: "Success saved album to library", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+                        strongSelf.present(alert, animated: true)
+                        
+                    }else{
+                        let alert = UIAlertController(title: "Failed", message: "failed  to save album", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+                        strongSelf.present(alert, animated: true)
+                    }
+                }
+            }
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 
 }
