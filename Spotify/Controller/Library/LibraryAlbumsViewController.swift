@@ -80,7 +80,7 @@ class LibraryAlbumsViewController: UIViewController {
         let albumTodelete = albums[indexPath.row]
         let actionSheet = UIAlertController(
             title: albumTodelete.album.name,
-            message: "Would you like to remove this from playlist",
+            message: "Would you like to remove this from albums",
             preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(
                                 title: "Cancel",

@@ -166,7 +166,7 @@ final class APICaller {
     
     //MARK: - Get All Categories
     public func getAllCategories(completion: @escaping (Result<[Category], Error>) -> Void){
-        createRequest(with: URL(string: Constants.baseAPIURL+"/browse/categories?limit=50"), type: .GET) { request in
+        createRequest(with: URL(string: Constants.baseAPIURL+"/browse/categories?locale=en_EN&limit=50"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request){ data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
