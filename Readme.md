@@ -13,7 +13,7 @@
 [FirebaseAnalytics](https://cocoapods.org/pods/FirebaseAnalytics)<br>
 
 ## Screenshot
-![screenshoot](screenshoot.png)! <br>
+![screenshoot](screenshoot.png)
 
 ## Further Reading
 [Get Client ID & Client Secret](https://developer.spotify.com/dashboard/login) <br>
