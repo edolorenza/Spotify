@@ -87,7 +87,6 @@ class WelcomeViewController: UIViewController {
         
         logoImageView.centerX(inView: view)
         logoImageView.centerY(inView: view)
-        
         taglineLabel.centerX(inView: logoImageView, topAnchor: logoImageView.bottomAnchor, paddingTop: 8)
         
     }
